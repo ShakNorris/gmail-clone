@@ -1,0 +1,20 @@
+.sidebar{
+    width:250px;
+    font-size:14px;
+    border-right: 1px solid whitesmoke;
+}
+
+.compose-btn{
+    margin: 15px 0px 15px 10px !important;
+    text-transform: capitalize !important;
+    color: black !important;
+    padding:15px !important;
+    border-radius: 10px !important;
+    background-color: #f36464 !important;
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.3);
+    width:150px;
+}
+
+.compose-btn:hover{
+    background-color: #f36464;
+}

@@ -1,0 +1,36 @@
+.login{
+    display:grid;
+    place-items: center;
+    height:100vh;
+}
+
+.login-container{
+    display:flex;
+    flex-direction: column;
+}
+
+.login-container > img{
+    object-fit: contain;
+    width:300px;
+}
+
+.app-info{
+    display:flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 125px;
+}
+
+.app-info span {
+    cursor: pointer;
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #231557;
+    display: inline-block;
+    font-size: 19px;
+}
+
+.login-btn{
+    width: 125px;
+}
