@@ -10,25 +10,50 @@ import PeopleIcon from '@mui/icons-material/People';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import Section from './Section';
 import EmailRow from './EmailRow';
-import { db, firebaseApp } from '../config/firebase';
+import fire from '../config/firebase';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../features/UserSlice';
+import { get, query, onValue } from "firebase/database"
 
 function EmailList() {
 
-    const [emails, setEmails] = useState([]);
+    const [emails,setEmails] = useState([])
+    const user = useSelector(selectUser)
 
-    useEffect(() => {
-        db.collection('emails')
-        .orderBy('timestamp', 'desc')
-        .onSnapshot((snapshot) => 
-            setEmails(
-                snapshot.docs.map((doc) =>({
-                    id: doc.id,
-                    data: doc.data()
-                }))
-            ))
+    let userRef = fire.database().ref("users");
+
+    
+
+    useEffect(() =>{
+        userRef.child(user.uid).child('emails').on('value', (snapshot) => {
+            let newEmails = []
+            snapshot.forEach(child =>{
+                newEmails.push({
+                    id: child.key,
+                    data: child.val()
+                })
+                setEmails(newEmails)
+            })
+        });
     }, [])
+    
 
+    // this functions returns every email sent in the app
+    // useEffect(() => {
+    //     fire.firestore().collection('emails')
+    //     .orderBy('timestamp', 'desc')
+    //     .onSnapshot((snapshot) => 
+    //         setEmails(
+    //             snapshot.docs.map((doc) =>({
+    //                 id: doc.id,
+    //                 data: doc.data()
+    //             }))
+    //         ))
+    // }, [])
 
+    // const emailsSnapshot = get(userRef.child(user.uid).child('email'))
+
+    
   return <div className='emailList'>
     <div className='emailList-settings'>
         <div className='emailList-settingsLeft'>

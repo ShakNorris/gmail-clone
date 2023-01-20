@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import {selectSendMessageIsOpen} from './features/MailSlice'
 import { selectUser } from './features/UserSlice';
 import Login from './components/authentication/Login';
-import { auth } from './config/firebase';
+import fire from './config/firebase';
 import {login} from './features/UserSlice'
 import { useDispatch } from 'react-redux';
 
@@ -19,15 +19,20 @@ function App() {
   const sendMessageisOpen = useSelector(selectSendMessageIsOpen);
   const user = useSelector(selectUser)
   const dispatch = useDispatch();
+  let userRef = fire.database().ref("users");
+
 
   useEffect(()=> {
-    auth.onAuthStateChanged(user =>{
+    fire.auth().onAuthStateChanged(user =>{
       if (user) {
         dispatch(login({
           displayName: user.displayName,
+          userName: user.userName,
           email: user.email,
-          photoUrl: user.photoURL
+          photoURL: user.photoURL,
+          uid: user.uid
         }))
+        console.log(user.uid)
       }
     })
   }, [])

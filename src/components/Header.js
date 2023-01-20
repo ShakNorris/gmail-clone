@@ -10,7 +10,7 @@ import { IconButton } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { logout, selectUser } from '../features/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { auth } from '../config/firebase';
+import fire from '../config/firebase';
 
 
 export default function Header() {
@@ -18,8 +18,10 @@ export default function Header() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch()
 
+  console.log(user.displayName)
+
   const signOut = () => {
-    auth.signOut().then(() => {
+    fire.auth().signOut().then(() => {
       dispatch(logout());
     })
   }
@@ -41,7 +43,7 @@ export default function Header() {
         <IconButton><HelpOutlineOutlinedIcon /></IconButton> 
         <IconButton><SettingsOutlinedIcon /></IconButton>
         <IconButton><AppsOutlinedIcon /></IconButton>
-        <IconButton onClick={signOut}><Avatar alt={user?.displayName} src={user?.photoUrl} /></IconButton>
+        <IconButton onClick={signOut}><Avatar src={user?.photoURL} /></IconButton>
     </div>
   </div>
 }

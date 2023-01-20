@@ -4,8 +4,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import {useForm} from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux'
+import { selectUser } from '../features/UserSlice';
 import { closeSendMessage } from '../features/MailSlice';
-import { db } from '../config/firebase';
+import fire from '../config/firebase';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -14,14 +16,27 @@ function SendMail() {
 
     const dispatch = useDispatch();
     const { register, formState: { errors }, handleSubmit } = useForm();
+    let userRef = fire.database().ref("users");
+
+    const user = useSelector(selectUser)
+
     const onSubmit = (formData) => {
-        db.collection('emails').add({
+        fire.firestore().collection('emails').add({
+            sender: user.uid,
             recipient: formData.recipient,
             subject: formData.subject,
             message: formData.message,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        })
-
+        }).then(email => {
+            userRef.child(user.uid).child('emails').child(email.id).set(
+                {
+                    recipient: formData.recipient,
+                    subject: formData.subject,
+                    message: formData.message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }
+            )
+        })       
         dispatch(closeSendMessage());
     }
 

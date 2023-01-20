@@ -30,10 +30,12 @@ function EmailRow({id, title, subject, description, time}) {
             <IconButton> <BookmarkBorderIcon /></IconButton>
         </div>
 
-        <div className='emailRow-main'>
-            <h3 className='emailRow-title'>{title}</h3>
-            <h4>{subject}</h4>
-            <span> - {description}</span>
+        <div className='emailRow-info'>
+            <div className='emailRow-main'>
+                <span className='emailRow-title'>{title}</span>
+                <span className='emailRow-subject'>{subject}</span>
+                <span className='emailRow-description'> - {description}</span>
+            </div>
             <div className='emailRow-misc'>{time}</div>
         </div>
     </div>
