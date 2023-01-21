@@ -19,8 +19,6 @@ function App() {
   const sendMessageisOpen = useSelector(selectSendMessageIsOpen);
   const user = useSelector(selectUser)
   const dispatch = useDispatch();
-  let userRef = fire.database().ref("users");
-
 
   useEffect(()=> {
     fire.auth().onAuthStateChanged(user =>{
@@ -32,7 +30,7 @@ function App() {
           photoURL: user.photoURL,
           uid: user.uid
         }))
-        console.log(user.uid)
+        console.log(user.email)
       }
     })
   }, [])

@@ -11,14 +11,31 @@ import fire from '../config/firebase';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 function SendMail() {
 
     const dispatch = useDispatch();
     const { register, formState: { errors }, handleSubmit } = useForm();
     let userRef = fire.database().ref("users");
+    const [users, setUsers] = useState([]);
 
     const user = useSelector(selectUser)
+
+    useEffect(() =>{
+        userRef.on('value', (snap) =>{
+            let usersArray = []
+            snap.forEach(child =>{
+                usersArray.push({
+                    id: child.key,
+                    info: child.val()
+                })
+                setUsers(usersArray)
+            })
+        })
+    }, [])
+    console.log(users)
 
     const onSubmit = (formData) => {
         fire.firestore().collection('emails').add({
@@ -27,18 +44,28 @@ function SendMail() {
             subject: formData.subject,
             message: formData.message,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(email => {
-            userRef.child(user.uid).child('emails').child(email.id).set(
-                {
-                    recipient: formData.recipient,
-                    subject: formData.subject,
-                    message: formData.message,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(Email => {
+            users.map(({id, info: {email}}) => {
+                if(formData.recipient == email){
+                    userRef.child(id).child('emails').child(Email.id).set(
+                        {
+                            recipient: user.email,
+                            subject: formData.subject,
+                            message: formData.message,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        }
+                    )
                 }
-            )
-        })       
+            })
+           
+        })
+
+
         dispatch(closeSendMessage());
     }
+
+   
+    
 
     return (
         <div className='sendMail'>

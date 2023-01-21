@@ -22,8 +22,6 @@ function EmailList() {
 
     let userRef = fire.database().ref("users");
 
-    
-
     useEffect(() =>{
         userRef.child(user.uid).child('emails').on('value', (snapshot) => {
             let newEmails = []
@@ -36,9 +34,9 @@ function EmailList() {
             })
         });
     }, [])
-    
 
-    // this functions returns every email sent in the app
+    
+    // this functions returns every email sent in the app (firestore)
     // useEffect(() => {
     //     fire.firestore().collection('emails')
     //     .orderBy('timestamp', 'desc')

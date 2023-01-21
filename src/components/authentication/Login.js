@@ -84,7 +84,8 @@ function Login() {
         dispatch(login({
           displayName: user.displayName,
           userName: user.userName,
-          photoURL: user.photoURL
+          photoURL: user.photoURL,
+          email: user.email
         }))
       })
       .catch((serverError) =>{
@@ -93,10 +94,23 @@ function Login() {
     }
   }
 
+  const AddGoogleUserToDB = (user) => {
+     userCollectionRef.child(user.uid).set({
+              displayName: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL
+      })
+  }
+
   const signInWithGoogle = () => {
     fire.auth()
     .signInWithPopup(provider)
     .then(({user}) => {
+      userCollectionRef.child(user.uid).on('value', (snapshot) => {
+          if(snapshot.val() == null){
+            AddGoogleUserToDB(user);
+          }
+        })
         dispatch(login({
             displayName: user.displayName,
             email: user.email,
@@ -107,9 +121,9 @@ function Login() {
     })
   }
 
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-  }
+  // function getRandomInt(max) {
+  //   return Math.floor(Math.random() * max);
+  // }
 
   const onSubmitRegister = () => {
     setErrorState(() => []);
@@ -123,6 +137,7 @@ function Login() {
           lastName: userState.lastName,
           userName: userState.userName,
           photoURL: `https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png`,
+          email: userState.userName.toLowerCase()  + '@firemail.com'.toLowerCase()
         })
         user.user.updateProfile({
           displayName: userState.userName,
