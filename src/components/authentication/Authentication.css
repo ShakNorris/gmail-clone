@@ -1,23 +1,92 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.login-page {
-  width: 360px;
-  padding: 8% 0 0;
-  margin: auto;
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
+.container:hover .top:before, .container:hover .top:after, .container:hover .bottom:before, .container:hover .bottom:after, .container:active .top:before, .container:active .top:after, .container:active .bottom:before, .container:active .bottom:after {
+  margin-left: 300px;
+  transform-origin: -300px 50%;
+  transition-delay: 0s;
+}
+.container:hover .center, .container:active .center {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+.top:before, .top:after, .bottom:before, .bottom:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 200vmax;
+  height: 200vmax;
+  top: 50%;
+  left: 50%;
+  margin-top: -100vmax;
+  transform-origin: 0 50%;
+  transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
+  z-index: 10;
+  opacity: 0.65;
+  transition-delay: 0.2s;
+}
+
+.top:before {
+  transform: rotate(45deg);
+  background: #ffa905;
+}
+.top:after {
+  transform: rotate(135deg);
+  background: #ffa905;
+}
+
+.bottom:before {
+  transform: rotate(-45deg);
+  background: #fff800;
+}
+.bottom:after {
+  transform: rotate(-135deg);
+  background: #f36464;
+}
+
+.center {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  margin-left: -220px;
+  margin-top: -200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.445, 0.05, 0, 1);
+  transition-delay: 0s;
+  color: #333;
+}
+.center input {
+  width: 100%;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 1px;
+  border: 1px solid white;
+  font-family: inherit;
+}
+
 .form {
   position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 360px;
   margin: 0 auto 100px;
-  padding: 45px;
+  z-index: 1;
+  max-width: 360px;
   text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form input {
   outline: 0;
-  background: #f2f2f2;
+  background: white;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
@@ -77,17 +146,6 @@
   font-size:30px;
 }
 
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
-}
 .container .info {
   margin: 50px auto;
   text-align: center;
@@ -109,4 +167,9 @@
 }
 .container .info span .fa {
   color: #EF3B3A;
+}
+
+.errors{
+  margin-top:10px;
+  color:red;
 }

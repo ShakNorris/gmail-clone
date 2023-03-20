@@ -164,12 +164,18 @@ function Login() {
  };
   
   return (<>
-    {hasAccount ? 
-    <>
-    <Register {...authProps} />
-    </> : <>
-    <Authorize {...authProps} />
-    </>}
+    <div className='container'>
+      <div className='top'></div>
+      <div className='bottom'></div>
+      <div className='center'>
+      {hasAccount ? 
+      <>
+      <Register {...authProps} />
+      </> : <>
+      <Authorize {...authProps} />
+      </>}
+      </div>
+    </div>
     </>
   )
 }

@@ -19,11 +19,11 @@ function Authorize(props) {
           </div>
           <p className="message">Not registered? <a onClick={()=> props.setHasAccount(!props.hasAccount)}>Create an account</a></p>
         </form>
+          {props.errorState.length > 0 && <div className='errors'>
+            <h3>Error</h3>
+            {props.formatError()}
+          </div>}
         </div>
-        {props.errorState.length > 0 && <div>
-          <h3>Error</h3>
-          {props.formatError()}
-        </div>}
       </div>
   )
 }

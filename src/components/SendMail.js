@@ -57,10 +57,7 @@ function SendMail() {
                     )
                 }
             })
-           
         })
-
-
         dispatch(closeSendMessage());
     }
 
